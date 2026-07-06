@@ -1,7 +1,8 @@
 # Dependencies
 node_modules/
 
-
+# Build output (збирається в CI під час деплою)
+dist/
 
 # Logs
 logs/
