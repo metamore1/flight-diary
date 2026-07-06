@@ -8,7 +8,7 @@ export default function Cards({ stats }) {
         <div className="label">Загальний наліт</div>
         <div className="val">{fmtHM(stats.totalMin)}</div>
         <div className="unit">
-          {stats.totalMin} хв{stats.milestone >= 50 ? ` · ★ за ${stats.milestone} год` : ''}
+          {(stats.totalMin / 60).toFixed(1)} год · {stats.totalMin} хв{stats.milestone >= 50 ? ` · ★ за ${stats.milestone} год` : ''}
         </div>
       </div>
       <div className="card">
