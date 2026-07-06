@@ -1,0 +1,494 @@
+{
+  "name": "Фурія",
+  "aircraft": "БпАК А1-СМ",
+  "baselineMinutes": 2238,
+  "baselineNote": "попередній сумарний наліт",
+  "flights": [
+    {
+      "id": "f001",
+      "date": "2026-05-19",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f002",
+      "date": "2026-05-22",
+      "minutes": 145,
+      "type": "night"
+    },
+    {
+      "id": "f003",
+      "date": "2026-05-22",
+      "minutes": 114,
+      "type": "night"
+    },
+    {
+      "id": "f004",
+      "date": "2026-05-22",
+      "minutes": 151,
+      "type": "day"
+    },
+    {
+      "id": "f005",
+      "date": "2026-05-22",
+      "minutes": 96,
+      "type": "night"
+    },
+    {
+      "id": "f006",
+      "date": "2026-05-22",
+      "minutes": 150,
+      "type": "day"
+    },
+    {
+      "id": "f007",
+      "date": "2026-05-22",
+      "minutes": 154,
+      "type": "day"
+    },
+    {
+      "id": "f008",
+      "date": "2026-05-22",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f009",
+      "date": "2026-05-22",
+      "minutes": 145,
+      "type": "day"
+    },
+    {
+      "id": "f010",
+      "date": "2026-05-22",
+      "minutes": 132,
+      "type": "day"
+    },
+    {
+      "id": "f011",
+      "date": "2026-05-22",
+      "minutes": 152,
+      "type": "day"
+    },
+    {
+      "id": "f012",
+      "date": "2026-05-22",
+      "minutes": 112,
+      "type": "night"
+    },
+    {
+      "id": "f013",
+      "date": "2026-05-22",
+      "minutes": 156,
+      "type": "day"
+    },
+    {
+      "id": "f014",
+      "date": "2026-05-22",
+      "minutes": 133,
+      "type": "night"
+    },
+    {
+      "id": "f015",
+      "date": "2026-05-22",
+      "minutes": 130,
+      "type": "night"
+    },
+    {
+      "id": "f016",
+      "date": "2026-05-22",
+      "minutes": 155,
+      "type": "day"
+    },
+    {
+      "id": "f017",
+      "date": "2026-05-22",
+      "minutes": 135,
+      "type": "day"
+    },
+    {
+      "id": "f018",
+      "date": "2026-05-22",
+      "minutes": 136,
+      "type": "day"
+    },
+    {
+      "id": "f019",
+      "date": "2026-06-02",
+      "minutes": 151,
+      "type": "day"
+    },
+    {
+      "id": "f020",
+      "date": "2026-06-02",
+      "minutes": 157,
+      "type": "day"
+    },
+    {
+      "id": "f021",
+      "date": "2026-06-04",
+      "minutes": 142,
+      "type": "day"
+    },
+    {
+      "id": "f022",
+      "date": "2026-06-04",
+      "minutes": 97,
+      "type": "day"
+    },
+    {
+      "id": "f023",
+      "date": "2026-06-04",
+      "minutes": 141,
+      "type": "day"
+    },
+    {
+      "id": "f024",
+      "date": "2026-06-05",
+      "minutes": 145,
+      "type": "day"
+    },
+    {
+      "id": "f025",
+      "date": "2026-06-05",
+      "minutes": 167,
+      "type": "day"
+    },
+    {
+      "id": "f026",
+      "date": "2026-06-05",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f027",
+      "date": "2026-06-06",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f028",
+      "date": "2026-06-06",
+      "minutes": 156,
+      "type": "day"
+    },
+    {
+      "id": "f029",
+      "date": "2026-06-06",
+      "minutes": 169,
+      "type": "day"
+    },
+    {
+      "id": "f030",
+      "date": "2026-06-06",
+      "minutes": 142,
+      "type": "day"
+    },
+    {
+      "id": "f031",
+      "date": "2026-06-07",
+      "minutes": 162,
+      "type": "day"
+    },
+    {
+      "id": "f032",
+      "date": "2026-06-07",
+      "minutes": 145,
+      "type": "day"
+    },
+    {
+      "id": "f033",
+      "date": "2026-06-07",
+      "minutes": 137,
+      "type": "day"
+    },
+    {
+      "id": "f034",
+      "date": "2026-06-07",
+      "minutes": 130,
+      "type": "day"
+    },
+    {
+      "id": "f035",
+      "date": "2026-06-08",
+      "minutes": 155,
+      "type": "day"
+    },
+    {
+      "id": "f036",
+      "date": "2026-06-08",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f037",
+      "date": "2026-06-08",
+      "minutes": 140,
+      "type": "day"
+    },
+    {
+      "id": "f038",
+      "date": "2026-06-09",
+      "minutes": 138,
+      "type": "day"
+    },
+    {
+      "id": "f039",
+      "date": "2026-06-09",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f040",
+      "date": "2026-06-09",
+      "minutes": 139,
+      "type": "day"
+    },
+    {
+      "id": "f041",
+      "date": "2026-06-09",
+      "minutes": 127,
+      "type": "day"
+    },
+    {
+      "id": "f042",
+      "date": "2026-06-10",
+      "minutes": 160,
+      "type": "day"
+    },
+    {
+      "id": "f043",
+      "date": "2026-06-10",
+      "minutes": 135,
+      "type": "day"
+    },
+    {
+      "id": "f044",
+      "date": "2026-06-10",
+      "minutes": 142,
+      "type": "day"
+    },
+    {
+      "id": "f045",
+      "date": "2026-06-10",
+      "minutes": 131,
+      "type": "day"
+    },
+    {
+      "id": "f046",
+      "date": "2026-06-10",
+      "minutes": 108,
+      "type": "day"
+    },
+    {
+      "id": "f047",
+      "date": "2026-06-11",
+      "minutes": 135,
+      "type": "day"
+    },
+    {
+      "id": "f048",
+      "date": "2026-06-11",
+      "minutes": 131,
+      "type": "day"
+    },
+    {
+      "id": "f049",
+      "date": "2026-06-11",
+      "minutes": 150,
+      "type": "day"
+    },
+    {
+      "id": "f050",
+      "date": "2026-06-11",
+      "minutes": 137,
+      "type": "day"
+    },
+    {
+      "id": "f051",
+      "date": "2026-06-13",
+      "minutes": 88,
+      "type": "day"
+    },
+    {
+      "id": "f052",
+      "date": "2026-06-13",
+      "minutes": 164,
+      "type": "day"
+    },
+    {
+      "id": "f053",
+      "date": "2026-06-14",
+      "minutes": 40,
+      "type": "day"
+    },
+    {
+      "id": "f054",
+      "date": "2026-06-14",
+      "minutes": 57,
+      "type": "day"
+    },
+    {
+      "id": "f055",
+      "date": "2026-06-14",
+      "minutes": 161,
+      "type": "day"
+    },
+    {
+      "id": "f056",
+      "date": "2026-06-15",
+      "minutes": 146,
+      "type": "day"
+    },
+    {
+      "id": "f057",
+      "date": "2026-06-15",
+      "minutes": 124,
+      "type": "day"
+    },
+    {
+      "id": "f058",
+      "date": "2026-06-16",
+      "minutes": 125,
+      "type": "day"
+    },
+    {
+      "id": "f059",
+      "date": "2026-06-16",
+      "minutes": 142,
+      "type": "day"
+    },
+    {
+      "id": "f060",
+      "date": "2026-06-16",
+      "minutes": 149,
+      "type": "day"
+    },
+    {
+      "id": "f061",
+      "date": "2026-06-16",
+      "minutes": 146,
+      "type": "day"
+    },
+    {
+      "id": "f062",
+      "date": "2026-06-19",
+      "minutes": 135,
+      "type": "day"
+    },
+    {
+      "id": "f063",
+      "date": "2026-06-19",
+      "minutes": 136,
+      "type": "day"
+    },
+    {
+      "id": "f064",
+      "date": "2026-06-24",
+      "minutes": 145,
+      "type": "day"
+    },
+    {
+      "id": "f065",
+      "date": "2026-06-24",
+      "minutes": 138,
+      "type": "day"
+    },
+    {
+      "id": "f066",
+      "date": "2026-06-24",
+      "minutes": 158,
+      "type": "day"
+    },
+    {
+      "id": "f067",
+      "date": "2026-06-25",
+      "minutes": 144,
+      "type": "day"
+    },
+    {
+      "id": "f068",
+      "date": "2026-06-25",
+      "minutes": 146,
+      "type": "day"
+    },
+    {
+      "id": "f069",
+      "date": "2026-06-25",
+      "minutes": 145,
+      "type": "day"
+    },
+    {
+      "id": "f070",
+      "date": "2026-06-25",
+      "minutes": 156,
+      "type": "day"
+    },
+    {
+      "id": "f071",
+      "date": "2026-06-26",
+      "minutes": 55,
+      "type": "day"
+    },
+    {
+      "id": "f072",
+      "date": "2026-06-26",
+      "minutes": 145,
+      "type": "day"
+    },
+    {
+      "id": "f073",
+      "date": "2026-06-26",
+      "minutes": 159,
+      "type": "day"
+    },
+    {
+      "id": "f074",
+      "date": "2026-06-26",
+      "minutes": 152,
+      "type": "day"
+    },
+    {
+      "id": "f075",
+      "date": "2026-06-27",
+      "minutes": 148,
+      "type": "day"
+    },
+    {
+      "id": "f076",
+      "date": "2026-06-27",
+      "minutes": 163,
+      "type": "day"
+    },
+    {
+      "id": "f077",
+      "date": "2026-06-27",
+      "minutes": 172,
+      "type": "day"
+    },
+    {
+      "id": "f078",
+      "date": "2026-06-28",
+      "minutes": 154,
+      "type": "day"
+    },
+    {
+      "id": "f079",
+      "date": "2026-06-28",
+      "minutes": 185,
+      "type": "day"
+    },
+    {
+      "id": "f080",
+      "date": "2026-06-28",
+      "minutes": 136,
+      "type": "day"
+    },
+    {
+      "id": "f081",
+      "date": "2026-06-29",
+      "minutes": 143,
+      "type": "day"
+    }
+  ]
+}
