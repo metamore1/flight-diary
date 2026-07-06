@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { loadDoc, saveDoc, validateDoc } from './lib/api'
+import { loadDoc, saveDoc, validateDoc, getToken, setToken as storeToken } from './lib/api'
 import { computeStats, fmtHM, fmtDate, fmtDateShort } from './lib/stats'
 import Cards from './components/Cards'
 import Bars from './components/Bars'
@@ -13,21 +13,47 @@ function newId() {
 
 export default function App() {
   const [doc, setDoc] = useState(null)
-  const [mode, setMode] = useState('loading')
+  const [loadError, setLoadError] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+  const [token, setToken] = useState(getToken())
+  const [tokenDraft, setTokenDraft] = useState('')
   const fileRef = useRef(null)
 
   useEffect(() => {
-    loadDoc().then(({ doc, mode }) => {
-      setDoc(doc)
-      setMode(mode)
-    })
+    loadDoc()
+      .then(({ doc }) => setDoc(doc))
+      .catch(e => setLoadError(e.message || 'Не вдалося завантажити журнал.'))
   }, [])
 
   const stats = useMemo(() => (doc ? computeStats(doc) : null), [doc])
 
+  // Зберігаємо у репозиторій. Якщо не вдалося — показуємо помилку й НЕ змінюємо дані локально.
   async function persist(next) {
-    setDoc(next)
-    setMode(await saveDoc(next))
+    if (saving) return
+    setSaving(true)
+    setError('')
+    try {
+      await saveDoc(next)
+      setDoc(next)
+    } catch (e) {
+      setError(e.message || 'Не вдалося зберегти зміни.')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  function applyToken() {
+    const t = tokenDraft.trim()
+    storeToken(t)
+    setToken(t)
+    setTokenDraft('')
+    setError('')
+  }
+
+  function clearToken() {
+    storeToken('')
+    setToken('')
   }
 
   function addFlight(f) {
@@ -62,6 +88,9 @@ export default function App() {
       .catch(() => alert('Некоректний JSON-файл журналу'))
   }
 
+  if (loadError) {
+    return <div className="wrap loading">{loadError}</div>
+  }
   if (!doc || !stats) {
     return <div className="wrap loading">Завантаження журналу…</div>
   }
@@ -77,8 +106,10 @@ export default function App() {
       </header>
 
       <div className="toolbar">
-        <span className={`mode-badge ${mode}`}>
-          {mode === 'server' ? '● дані: data/flights.json (сервер)' : '● локальний режим (браузер)'}
+        <span className={`mode-badge ${token ? 'server' : 'local'}`}>
+          {token
+            ? (saving ? '● збереження у GitHub…' : '● запис у репозиторій')
+            : '● тільки читання'}
         </span>
         <span className="spacer" />
         <button className="btn" onClick={exportJson}>⤓ Експорт JSON</button>
@@ -89,12 +120,35 @@ export default function App() {
         />
       </div>
 
-      {mode === 'local' && (
+      <div className="token-row">
+        {token ? (
+          <>
+            <span className="token-status">🔑 токен збережено (лише в цьому браузері)</span>
+            <span className="spacer" />
+            <button className="btn" onClick={clearToken}>Прибрати токен</button>
+          </>
+        ) : (
+          <>
+            <input
+              type="password" autoComplete="off"
+              placeholder="GitHub-токен (Contents: write) — зберігається лише у вашому браузері"
+              value={tokenDraft}
+              onChange={e => setTokenDraft(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') applyToken() }}
+            />
+            <button className="btn primary" onClick={applyToken}>Увімкнути запис</button>
+          </>
+        )}
+      </div>
+
+      {!token && (
         <div className="notice">
-          Сервер даних недоступний — зміни зберігаються лише в цьому браузері (localStorage).
-          Робіть «Експорт JSON» для резервної копії.
+          Режим тільки для читання. Щоб зберігати зміни в репозиторій, додайте персональний
+          GitHub-токен із правом Contents: write — він не потрапляє в код і зберігається лише тут.
         </div>
       )}
+
+      {error && <div className="notice error">{error}</div>}
 
       <Cards stats={stats} />
       <AddForm onAdd={addFlight} />

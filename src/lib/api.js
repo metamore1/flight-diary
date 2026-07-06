@@ -1,37 +1,105 @@
 import seed from '../seed/flights.json'
 
-const STORAGE_KEY = 'furia-flights'
+// Дані зберігаються прямо в репозиторії (data/flights.json) через GitHub Contents API.
+// Читання — публічне (репо відкритий). Запис — лише з персональним токеном,
+// який користувач вводить у застосунку; токен живе тільки в цьому браузері.
+const REPO = 'metamore1/flight-diary'
+const BRANCH = 'main'
+const FILE_PATH = 'data/flights.json'
+const TOKEN_KEY = 'furia-gh-token'
+const API_URL = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`
 
-// Дані живуть у data/flights.json на сервері (через API).
-// Якщо API недоступне (статичний хостинг) — localStorage браузера + експорт JSON.
+// sha поточної версії файлу — потрібен GitHub API, щоб оновити (а не перезаписати наосліп).
+let currentSha = null
+
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY) || ''
+}
+
+export function setToken(token) {
+  const t = (token || '').trim()
+  if (t) localStorage.setItem(TOKEN_KEY, t)
+  else localStorage.removeItem(TOKEN_KEY)
+}
+
+function authHeaders() {
+  const headers = { Accept: 'application/vnd.github+json' }
+  const token = getToken()
+  if (token) headers.Authorization = `Bearer ${token}`
+  return headers
+}
+
+// GitHub повертає/очікує вміст у base64; коректно кодуємо UTF-8 (кирилиця тощо).
+function utf8ToBase64(str) {
+  const bytes = new TextEncoder().encode(str)
+  let bin = ''
+  for (const b of bytes) bin += String.fromCharCode(b)
+  return btoa(bin)
+}
+function base64ToUtf8(b64) {
+  const bin = atob(b64.replace(/\s/g, ''))
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0))
+  return new TextDecoder().decode(bytes)
+}
+
 export async function loadDoc() {
-  try {
-    const res = await fetch('/api/flights')
-    const ct = res.headers.get('content-type') || ''
-    if (res.ok && ct.includes('json')) {
-      return { doc: await res.json(), mode: 'server' }
-    }
-  } catch { /* API недоступне — переходимо в локальний режим */ }
+  const res = await fetch(`${API_URL}?ref=${BRANCH}`, {
+    headers: authHeaders(),
+    cache: 'no-store',
+  })
 
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (stored) {
-    try { return { doc: JSON.parse(stored), mode: 'local' } } catch { /* зіпсований запис — беремо seed */ }
+  if (res.ok) {
+    const data = await res.json()
+    currentSha = data.sha
+    return { doc: JSON.parse(base64ToUtf8(data.content)), source: 'github' }
   }
-  return { doc: seed, mode: 'local' }
+
+  // Файлу ще немає — стартуємо з seed; перший запис створить файл у репо.
+  if (res.status === 404) {
+    currentSha = null
+    return { doc: seed, source: 'seed' }
+  }
+
+  throw new Error(`Не вдалося завантажити дані з GitHub (HTTP ${res.status}).`)
 }
 
 export async function saveDoc(doc) {
-  try {
-    const res = await fetch('/api/flights', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(doc),
-    })
-    if (res.ok) return 'server'
-  } catch { /* API недоступне — зберігаємо локально */ }
+  if (!getToken()) {
+    throw new Error('Немає GitHub-токена — редагування вимкнене. Додайте токен, щоб зберігати зміни.')
+  }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(doc))
-  return 'local'
+  const body = {
+    message: `data: журнал нальоту (${doc.flights.length} польотів)`,
+    content: utf8ToBase64(JSON.stringify(doc, null, 2)),
+    branch: BRANCH,
+  }
+  if (currentSha) body.sha = currentSha
+
+  const res = await fetch(API_URL, {
+    method: 'PUT',
+    headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+
+  if (res.ok) {
+    const data = await res.json()
+    currentSha = data.content?.sha ?? currentSha
+    return
+  }
+
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('Токен GitHub недійсний або без права запису (потрібен доступ Contents: write).')
+  }
+  if (res.status === 409 || res.status === 422) {
+    throw new Error('Дані в репозиторії змінилися. Перезавантажте сторінку й повторіть.')
+  }
+
+  let detail = `HTTP ${res.status}`
+  try {
+    const err = await res.json()
+    if (err?.message) detail = err.message
+  } catch { /* тіло не JSON — лишаємо код статусу */ }
+  throw new Error(`Не вдалося зберегти у GitHub: ${detail}`)
 }
 
 export function validateDoc(doc) {
