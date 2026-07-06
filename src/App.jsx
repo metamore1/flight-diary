@@ -18,11 +18,18 @@ export default function App() {
   const [error, setError] = useState('')
   const [token, setToken] = useState(getToken())
   const [tokenDraft, setTokenDraft] = useState('')
+  const [tokenRejected, setTokenRejected] = useState(false)
   const fileRef = useRef(null)
 
   useEffect(() => {
     loadDoc()
-      .then(({ doc }) => setDoc(doc))
+      .then(({ doc, tokenRejected }) => {
+        setDoc(doc)
+        if (tokenRejected) {
+          setTokenRejected(true)
+          setError('Збережений токен недійсний або протермінований — дані завантажено лише для читання. Прибери токен і додай новий, щоб зберігати зміни.')
+        }
+      })
       .catch(e => setLoadError(e.message || 'Не вдалося завантажити журнал.'))
   }, [])
 
@@ -48,12 +55,15 @@ export default function App() {
     storeToken(t)
     setToken(t)
     setTokenDraft('')
+    setTokenRejected(false)
     setError('')
   }
 
   function clearToken() {
     storeToken('')
     setToken('')
+    setTokenRejected(false)
+    setError('')
   }
 
   function addFlight(f) {
@@ -106,8 +116,8 @@ export default function App() {
       </header>
 
       <div className="toolbar">
-        <span className={`mode-badge ${token ? 'server' : 'local'}`}>
-          {token
+        <span className={`mode-badge ${token && !tokenRejected ? 'server' : 'local'}`}>
+          {token && !tokenRejected
             ? (saving ? '● збереження у GitHub…' : '● запис у репозиторій')
             : '● тільки читання'}
         </span>

@@ -43,21 +43,27 @@ function base64ToUtf8(b64) {
 }
 
 export async function loadDoc() {
-  const res = await fetch(`${API_URL}?ref=${BRANCH}`, {
-    headers: authHeaders(),
-    cache: 'no-store',
-  })
+  const url = `${API_URL}?ref=${BRANCH}`
+  let res = await fetch(url, { headers: authHeaders(), cache: 'no-store' })
+
+  // Недійсний/протермінований токен ламає навіть читання публічного репо (401/403).
+  // Пробуємо ще раз без токена, щоб застосунок усе одно завантажився (тільки читання).
+  let tokenRejected = false
+  if ((res.status === 401 || res.status === 403) && getToken()) {
+    tokenRejected = true
+    res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' }, cache: 'no-store' })
+  }
 
   if (res.ok) {
     const data = await res.json()
     currentSha = data.sha
-    return { doc: JSON.parse(base64ToUtf8(data.content)), source: 'github' }
+    return { doc: JSON.parse(base64ToUtf8(data.content)), source: 'github', tokenRejected }
   }
 
   // Файлу ще немає — стартуємо з seed; перший запис створить файл у репо.
   if (res.status === 404) {
     currentSha = null
-    return { doc: seed, source: 'seed' }
+    return { doc: seed, source: 'seed', tokenRejected }
   }
 
   throw new Error(`Не вдалося завантажити дані з GitHub (HTTP ${res.status}).`)
