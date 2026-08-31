@@ -669,6 +669,13 @@
       "date": "2026-08-31",
       "minutes": 146,
       "type": "day"
+    },
+    {
+      "id": "f-mthgfc9b-0-15za",
+      "date": "2026-08-31",
+      "minutes": 119,
+      "type": "day",
+      "note": "Висота 3320"
     }
   ]
 }
